@@ -81,13 +81,14 @@ public class MissionDaoTest {
 		assertNotNull("The Mission Dao was not injected", missionDao);
 
 		// missionDao.setEntityManager(em);
+		Mission savedMission = missionDao.create(mission);
 
-		assertEquals("The Missions are not equal", mission, missionDao.create(mission));
+		//assertEquals("The Missions are not equal", mission, savedMission);
 
-		assertTrue("The Mission was not persisted properly.", mission.getId() > 0);
+		assertTrue("The Mission was not persisted properly.", savedMission.getId() > 0);
 
 		// find the Mission using JPQL
-		List<Mission> results = em.createQuery("FROM Mission where id = :id").setParameter("id", mission.getId())
+		List<Mission> results = em.createQuery("FROM Mission where id = :id").setParameter("id", savedMission.getId())
 				.getResultList();
 
 		assertEquals("Wrong number of results found.", 1, results.size());

@@ -14,7 +14,6 @@ import javax.validation.Constraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
 /**
 *
 */
@@ -31,17 +30,20 @@ public class Mission implements Serializable {
 	private Long id;
 
 	@NotNull
-	@Column(name = "MISSION_KEY", unique=true)
+	@Column(name = "MISSION_KEY", unique = true)
 	private String businessKey;
 
-	@NotNull(message="Mission Name required.")
-	@Size(min = 1, max = 500, message="Mission Name is required and must be between 1 and 500 characters.")
+	@NotNull(message = "Mission Name required.")
+	@Size(min = 1, max = 500, message = "Mission Name is required and must be between 1 and 500 characters.")
 	@Column(name = "MISSION_NAME", unique = true)
 	private String name;
 
-	@Size(min = 0, max = 500, message="Mission Description is required and must be between 1 and 500 characters.")
+	@Size(min = 0, max = 500, message = "Mission Description is required and must be between 1 and 500 characters.")
 	@Column(name = "MISSION_DSCR")
 	private String description = "";
+
+	@Column
+	private String foo;
 
 	/**
 	 * @return the id
@@ -51,7 +53,8 @@ public class Mission implements Serializable {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(Long id) {
 		this.id = id;
@@ -65,7 +68,8 @@ public class Mission implements Serializable {
 	}
 
 	/**
-	 * @param businessKey the businessKey to set
+	 * @param businessKey
+	 *            the businessKey to set
 	 */
 	public void setBusinessKey(String businessKey) {
 		this.businessKey = businessKey;
@@ -79,7 +83,8 @@ public class Mission implements Serializable {
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -93,12 +98,25 @@ public class Mission implements Serializable {
 	}
 
 	/**
-	 * @param description the description to set
+	 * @param description
+	 *            the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	
+	/**
+	 * @return the foo
+	 */
+	public String getFoo() {
+		return foo;
+	}
+
+	/**
+	 * @param foo the foo to set
+	 */
+	public void setFoo(String foo) {
+		this.foo = foo;
+	}
 
 }
