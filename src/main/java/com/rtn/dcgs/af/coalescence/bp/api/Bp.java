@@ -96,7 +96,8 @@ public interface Bp<T> {
 	 *            - the name of the property to be searched on
 	 * @param value
 	 *            - the value that relates (in some way) to the value to be found in search results
-	 * @return
+	 * @return 
+	 * 			- the entity
 	 */
 	List<T> findBy(String propertyName, String value);
 }

@@ -271,37 +271,15 @@
 			<id>documentation</id>
 			<build>
 				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-site-plugin</artifactId>
-						<version>3.4</version>
-						<executions>
-							<execution>
-								<id>attach-descriptor</id>
-								<goals>
-									<goal>attach-descriptor</goal>
-								</goals>
-							</execution>
-						</executions>
-						<dependencies>
-							<dependency>
-								<groupId>org.apache.maven.wagon</groupId>
-								<artifactId>wagon-webdav-jackrabbit</artifactId>
-								<version>2.6</version>
-							</dependency>
-							<dependency>
-								<groupId>lt.velykis.maven.skins</groupId>
-								<artifactId>reflow-velocity-tools</artifactId>
-								<version>1.1.1</version>
-							</dependency>
-							<!-- Reflow skin requires Velocity >= 1.7 -->
-							<dependency>
-								<groupId>org.apache.velocity</groupId>
-								<artifactId>velocity</artifactId>
-								<version>1.7</version>
-							</dependency>
-						</dependencies>
-					</plugin>
+					<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-site-plugin</artifactId> 
+						<version>3.4</version> <executions> <execution> <id>attach-descriptor</id> 
+						<goals> <goal>attach-descriptor</goal> </goals> </execution> </executions> 
+						<dependencies> <dependency> <groupId>org.apache.maven.wagon</groupId> <artifactId>wagon-webdav-jackrabbit</artifactId> 
+						<version>2.6</version> </dependency> <dependency> <groupId>lt.velykis.maven.skins</groupId> 
+						<artifactId>reflow-velocity-tools</artifactId> <version>1.1.1</version> </dependency> 
+						Reflow skin requires Velocity >= 1.7 <dependency> <groupId>org.apache.velocity</groupId> 
+						<artifactId>velocity</artifactId> <version>1.7</version> </dependency> </dependencies> 
+						</plugin> -->
 				</plugins>
 			</build>
 			<reporting>
@@ -361,6 +339,22 @@
 						will need to be configured -->
 					<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-changelog-plugin</artifactId> 
 						<version>2.3</version> </plugin> -->
+					<plugin>
+						<groupId>org.codehaus.enunciate</groupId>
+						<artifactId>maven-enunciate-plugin</artifactId>
+						<version>1.28</version>
+						<configuration>
+
+							<!-- The subdirectory of the site where the documentation will be 
+								put. -->
+							<!-- Note that if this isn't set, the documentation will overwrite 
+								the site. -->
+							<docsSubdir>rest-services</docsSubdir>
+
+							<!-- Alternatively, you can just rename the Enunciate index page -->
+							<indexPageName>rest-services.html</indexPageName>
+						</configuration>
+					</plugin>
 				</plugins>
 			</reporting>
 		</profile>

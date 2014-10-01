@@ -21,8 +21,6 @@ public abstract class AbstractBp<ENTITYTYPE, DAOTYPE extends Dao<ENTITYTYPE>> im
 	/**
 	 * Initializes the AbstractBp superclass. Takes the concrete Dao instance that should be used.
 	 * 
-	 * @param dao
-	 *            - The Data Access Object that will be used
 	 */
 	protected DAOTYPE dao;
 	protected Event<ENTITYTYPE> eventBus;
