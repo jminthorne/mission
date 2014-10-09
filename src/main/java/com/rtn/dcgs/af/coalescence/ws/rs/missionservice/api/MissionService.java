@@ -30,6 +30,12 @@ public interface MissionService {
 	@PUT
 	@PathParam("/createMission/{missionName}")
 	@Consumes({ "application/json" })
-	void createMission(@PathParam("missionName") String missionName);
+	void createMissionByName(@PathParam("missionName") Mission mission);
+
+	@PUT
+	@PathParam("/createMission/{mission}")
+	@Consumes({ "application/json" })
+	void createMission(@PathParam("mission") Mission mission);
+	
 
 }

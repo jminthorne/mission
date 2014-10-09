@@ -2,6 +2,13 @@ package com.rtn.dcgs.af.coalescence.bp.api;
 
 import java.util.List;
 
+import org.jboss.errai.jpa.sync.client.shared.DataSyncService;
+import org.jboss.errai.jpa.sync.client.shared.JpaAttributeAccessor;
+import org.jboss.errai.jpa.sync.client.shared.SyncRequestOperation;
+import org.jboss.errai.jpa.sync.client.shared.SyncResponse;
+import org.jboss.errai.jpa.sync.client.shared.SyncableDataSet;
+import org.jboss.errai.jpa.sync.server.JavaReflectionAttributeAccessor;
+
 
 /**
  * This is an interface for Business Process classes, providing some common methods that can be implemented by each
@@ -100,4 +107,7 @@ public interface Bp<T> {
 	 * 			- the entity
 	 */
 	List<T> findBy(String propertyName, String value);
+	
+	public <X> List<SyncResponse<X>> sync(SyncableDataSet<X> dataSet, List<SyncRequestOperation<X>> remoteResults);
+	
 }

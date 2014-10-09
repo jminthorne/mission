@@ -45,15 +45,15 @@ public class MissionServiceTest {
 		//
 		// // clear the table between tests (findAll can't test without this)
 		// // cannot drop a table with a child table using only JPQL (i.e. DELETE)
-		// List<Mission> results = em.createQuery("FROM Mission").getResultList();
-		// for (Mission mission : results) {
+		// List<SharedMission> results = em.createQuery("FROM SharedMission").getResultList();
+		// for (SharedMission mission : results) {
 		// System.out.println("\n\n\ttotal mission "+results.size());
 		// System.out.println("\n\n\tremoving "+mission.getBusinessKey());
 		// em.remove(mission);
 		// }
 		//
-		// List<Mission> mResults = em.createQuery("FROM Mission").getResultList();
-		// for (Mission mission : mResults) {
+		// List<SharedMission> mResults = em.createQuery("FROM SharedMission").getResultList();
+		// for (SharedMission mission : mResults) {
 		// em.remove(mission);
 		// }
 	}
@@ -78,7 +78,7 @@ public class MissionServiceTest {
 		//given
 		String missionName = "test_mission";
 		//when
-		service.createMission(missionName);
+		//service.createMission(missionName);
 	}
 	
 	//@Test

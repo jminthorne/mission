@@ -5,17 +5,28 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.jboss.errai.jpa.sync.client.shared.DataSyncService;
+import org.jboss.errai.jpa.sync.client.shared.JpaAttributeAccessor;
+import org.jboss.errai.jpa.sync.client.shared.SyncRequestOperation;
+import org.jboss.errai.jpa.sync.client.shared.SyncResponse;
+import org.jboss.errai.jpa.sync.client.shared.SyncableDataSet;
+import org.jboss.errai.jpa.sync.server.JavaReflectionAttributeAccessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.rtn.dcgs.af.coalescence.persistence.api.Dao;
 
+@Stateless
+@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class AbstractDao<T> implements Dao<T> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractDao.class);
@@ -88,6 +99,26 @@ public class AbstractDao<T> implements Dao<T> {
 		// itemToSearchBy + "'").getResultList();
 	}
 
+	/**
+	 * Passes a data sync operation on the given data set to the server-side of the Errai DataSync system.
+	 * <p>
+	 * This method is not invoked directly by the application code; it is called via Errai RPC by Errai's
+	 * ClientSyncManager.
+	 * 
+	 * @param dataSet
+	 *            The data set to synchronize.
+	 * @param remoteResults
+	 *            The remote results produced by ClientSyncManager, which the server-side needs to perform to
+	 *            synchronize the server data with the client data.
+	 * @return A list of sync response operations that ClientSyncManager needs to perform to synchronize the client data
+	 *         with the server data.
+	 */
+	public <X> List<SyncResponse<X>> sync(SyncableDataSet<X> dataSet, List<SyncRequestOperation<X>> remoteResults) {
+		JpaAttributeAccessor attributeAccessor = new JavaReflectionAttributeAccessor();
+		DataSyncService dss = new org.jboss.errai.jpa.sync.server.DataSyncServiceImpl(entityManager, attributeAccessor);
+		return dss.coldSync(dataSet, remoteResults);
+	}
+
 	public class EntityComparator implements Comparator<Object> {
 
 		@Override
@@ -122,8 +153,7 @@ public class AbstractDao<T> implements Dao<T> {
 	}
 
 	/**
-	 * Used internally to set the number of items to return, using
-	 * Query.setFirstResult and Query.setMaxResults.
+	 * Used internally to set the number of items to return, using Query.setFirstResult and Query.setMaxResults.
 	 * 
 	 * @param query
 	 * @param start

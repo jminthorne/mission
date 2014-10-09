@@ -4,6 +4,12 @@ import java.util.List;
 
 import javax.enterprise.event.Event;
 
+import org.jboss.errai.jpa.sync.client.shared.DataSyncService;
+import org.jboss.errai.jpa.sync.client.shared.JpaAttributeAccessor;
+import org.jboss.errai.jpa.sync.client.shared.SyncRequestOperation;
+import org.jboss.errai.jpa.sync.client.shared.SyncResponse;
+import org.jboss.errai.jpa.sync.client.shared.SyncableDataSet;
+import org.jboss.errai.jpa.sync.server.JavaReflectionAttributeAccessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -121,5 +127,10 @@ public abstract class AbstractBp<ENTITYTYPE, DAOTYPE extends Dao<ENTITYTYPE>> im
 
 	protected void fireSaveEvent(ENTITYTYPE type) {
 		//this.eventBus.select(new AnnotationLiteral<EntitySavedEvent>() {}).fire(type);
+	}
+	
+	public <X> List<SyncResponse<X>> sync(SyncableDataSet<X> dataSet, List<SyncRequestOperation<X>> remoteResults) {
+		return dao.sync(dataSet, remoteResults);
+
 	}
 }

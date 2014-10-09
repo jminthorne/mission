@@ -14,12 +14,19 @@ import javax.validation.Constraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.jboss.errai.common.client.api.annotations.Portable;
+import org.jboss.errai.databinding.client.api.Bindable;
+
 /**
 *
 */
+// jpa
 @Entity
 @Table(name = "MISSION")
-@NamedQueries({ @NamedQuery(name = "findJobsByEndpoint", query = "FROM Mission WHERE isActive = true AND sourceEndpoint = :endpoint OR targetEndpoint = :endpoint") })
+@NamedQueries({ @NamedQuery(name = "allMission", query = "SELECT m FROM Mission m ORDER BY m.id") })
+// errai
+@Portable
+@Bindable
 public class Mission implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -33,17 +40,20 @@ public class Mission implements Serializable {
 	@Column(name = "MISSION_KEY", unique = true)
 	private String businessKey;
 
-	@NotNull(message = "Mission Name required.")
-	@Size(min = 1, max = 500, message = "Mission Name is required and must be between 1 and 500 characters.")
+	@NotNull(message = "SharedMission Name required.")
+	@Size(min = 1, max = 500, message = "SharedMission Name is required and must be between 1 and 500 characters.")
 	@Column(name = "MISSION_NAME", unique = true)
 	private String name;
 
-	@Size(min = 0, max = 500, message = "Mission Description is required and must be between 1 and 500 characters.")
+	@Size(min = 0, max = 500, message = "SharedMission Description is required and must be between 1 and 500 characters.")
 	@Column(name = "MISSION_DSCR")
 	private String description = "";
 
 	@Column
 	private String foo;
+
+	@Column
+	private boolean completed;
 
 	/**
 	 * @return the id
@@ -113,10 +123,26 @@ public class Mission implements Serializable {
 	}
 
 	/**
-	 * @param foo the foo to set
+	 * @param foo
+	 *            the foo to set
 	 */
 	public void setFoo(String foo) {
 		this.foo = foo;
+	}
+
+	/**
+	 * @return the completed
+	 */
+	public boolean isCompleted() {
+		return completed;
+	}
+
+	/**
+	 * @param completed
+	 *            the completed to set
+	 */
+	public void setCompleted(boolean completed) {
+		this.completed = completed;
 	}
 
 }

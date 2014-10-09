@@ -60,14 +60,14 @@ public class MissionDaoTest {
 
 		// clear the table between tests (findAll can't test without this)
 		// cannot drop a table with a child table using only JPQL (i.e. DELETE)
-		List<Mission> results = em.createQuery("FROM Mission").getResultList();
+		List<Mission> results = em.createQuery("FROM SharedMission").getResultList();
 		for (Mission mission : results) {
 			System.out.println("\n\n\ttotal mission "+results.size());
 			System.out.println("\n\n\tremoving "+mission.getBusinessKey());
 			em.remove(mission);
 		}
 
-		List<Mission> mResults = em.createQuery("FROM Mission").getResultList();
+		List<Mission> mResults = em.createQuery("FROM SharedMission").getResultList();
 		for (Mission mission : mResults) {
 			em.remove(mission);
 		}
@@ -78,21 +78,21 @@ public class MissionDaoTest {
 		System.out.println("\n\nttestcreate");
 		Mission mission = initMission();
 
-		assertNotNull("The Mission Dao was not injected", missionDao);
+		assertNotNull("The SharedMission Dao was not injected", missionDao);
 
 		// missionDao.setEntityManager(em);
 		Mission savedMission = missionDao.create(mission);
 
 		//assertEquals("The Missions are not equal", mission, savedMission);
 
-		assertTrue("The Mission was not persisted properly.", savedMission.getId() > 0);
+		assertTrue("The SharedMission was not persisted properly.", savedMission.getId() > 0);
 
-		// find the Mission using JPQL
-		List<Mission> results = em.createQuery("FROM Mission where id = :id").setParameter("id", savedMission.getId())
+		// find the SharedMission using JPQL
+		List<Mission> results = em.createQuery("FROM SharedMission where id = :id").setParameter("id", savedMission.getId())
 				.getResultList();
 
 		assertEquals("Wrong number of results found.", 1, results.size());
-		assertEquals("Mission was not persisted properly.", mission, results.get(0));
+		assertEquals("SharedMission was not persisted properly.", mission, results.get(0));
 
 		commit();
 	}
@@ -103,29 +103,29 @@ public class MissionDaoTest {
 
 		Mission mission = initMission();
 
-		assertNotNull("The Mission Dao was not injected", missionDao);
+		assertNotNull("The SharedMission Dao was not injected", missionDao);
 
 		missionDao.setEntityManager(em);
 
 		em.persist(mission);
 		em.flush();
 
-		assertNotNull("The Mission ID is null", mission.getId());
+		assertNotNull("The SharedMission ID is null", mission.getId());
 
-		// find our Mission using JPQL
-		List<Mission> results = em.createQuery("FROM Mission where id = :id").setParameter("id", mission.getId())
+		// find our SharedMission using JPQL
+		List<Mission> results = em.createQuery("FROM SharedMission where id = :id").setParameter("id", mission.getId())
 				.getResultList();
 
 		assertEquals("Wrong number of results found.", 1, results.size());
-		assertEquals("Mission was not persisted properly.", mission, results.get(0));
+		assertEquals("SharedMission was not persisted properly.", mission, results.get(0));
 
-		// delete the Mission
+		// delete the SharedMission
 		missionDao.delete(mission.getId(), Mission.class);
 
 		Long previousId = mission.getId();
 
-		// (don't) find our Mission using JPQL
-		results = em.createQuery("FROM Mission where id = :id").setParameter("id", previousId).getResultList();
+		// (don't) find our SharedMission using JPQL
+		results = em.createQuery("FROM SharedMission where id = :id").setParameter("id", previousId).getResultList();
 
 		assertEquals("Wrong number of results found.", 0, results.size());
 
@@ -142,41 +142,41 @@ public class MissionDaoTest {
 
 		Mission mission = initMission();
 
-		assertNotNull("The Mission Dao was not injected", missionDao);
+		assertNotNull("The SharedMission Dao was not injected", missionDao);
 
 		missionDao.setEntityManager(em);
 
 		em.persist(mission);
 		em.flush();
 
-		assertNotNull("The Mission ID is null", mission.getId());
+		assertNotNull("The SharedMission ID is null", mission.getId());
 
-		// find our Mission using JPQL
-		List<Mission> results = em.createQuery("FROM Mission where id = :id").setParameter("id", mission.getId())
+		// find our SharedMission using JPQL
+		List<Mission> results = em.createQuery("FROM SharedMission where id = :id").setParameter("id", mission.getId())
 				.getResultList();
 
 		assertEquals("Wrong number of results found.", 1, results.size());
-		assertEquals("Mission was not persisted properly.", mission, results.get(0));
+		assertEquals("SharedMission was not persisted properly.", mission, results.get(0));
 
 		// set updated values
 		// TODO: test for updated ScheduleWindow
-		mission.setName("2Test Mission" + System.currentTimeMillis());
-		mission.setDescription("2Test Mission Description" + System.currentTimeMillis());
+		mission.setName("2Test SharedMission" + System.currentTimeMillis());
+		mission.setDescription("2Test SharedMission Description" + System.currentTimeMillis());
 
 		// update changes using DAO
 		missionDao.update(mission);
 
-		// find our Mission using JPQL
-		results = em.createQuery("FROM Mission where id = :id AND name = :name AND description = :description")
+		// find our SharedMission using JPQL
+		results = em.createQuery("FROM SharedMission where id = :id AND name = :name AND description = :description")
 				.setParameter("id", mission.getId()).setParameter("name", mission.getName())
 				.setParameter("description", mission.getDescription()).getResultList();
 
 		assertEquals("More than one result found.", 1, results.size());
-		assertEquals("Updated Mission was not persisted properly: id property incorrect.", mission.getId(), results
+		assertEquals("Updated SharedMission was not persisted properly: id property incorrect.", mission.getId(), results
 				.get(0).getId());
-		assertEquals("Updated Mission was not persisted properly: name property incorrect.", mission.getName(), results
+		assertEquals("Updated SharedMission was not persisted properly: name property incorrect.", mission.getName(), results
 				.get(0).getName());
-		assertEquals("Updated Mission was not persisted properly: description property incorrect.",
+		assertEquals("Updated SharedMission was not persisted properly: description property incorrect.",
 				mission.getDescription(), results.get(0).getDescription());
 
 		commit();
@@ -187,20 +187,20 @@ public class MissionDaoTest {
 	public void testFindById() {
 		Mission mission = initMission();
 
-		assertNotNull("The Mission Dao was not injected", missionDao);
+		assertNotNull("The SharedMission Dao was not injected", missionDao);
 
 		missionDao.setEntityManager(em);
 
 		em.persist(mission);
 		em.flush();
 
-		assertNotNull("The Mission ID is null", mission.getId());
+		assertNotNull("The SharedMission ID is null", mission.getId());
 
-		// find our Mission using JPQL
-		List<Mission> results = em.createQuery("FROM Mission where id = :id").setParameter("id", mission.getId())
+		// find our SharedMission using JPQL
+		List<Mission> results = em.createQuery("FROM SharedMission where id = :id").setParameter("id", mission.getId())
 				.getResultList();
 		assertEquals("Wrong number of results found.", 1, results.size());
-		assertEquals("The Mission was not persisted properly: entity manager did not get proper Mission.", mission,
+		assertEquals("The SharedMission was not persisted properly: entity manager did not get proper SharedMission.", mission,
 				results.get(0));
 
 		assertEquals("Incorrect result from findById().", results.get(0),
@@ -219,7 +219,7 @@ public class MissionDaoTest {
 		Mission mission3 = initMission();
 
 		// set up DAO
-		assertNotNull("The Mission Dao was not injected", missionDao);
+		assertNotNull("The SharedMission Dao was not injected", missionDao);
 		missionDao.setEntityManager(em);
 
 		// persist test jobs (without DAO)
@@ -228,18 +228,18 @@ public class MissionDaoTest {
 		em.persist(mission3);
 		em.flush();
 
-		assertNotNull("The Mission ID is null", mission.getId());
+		assertNotNull("The SharedMission ID is null", mission.getId());
 		assertNotNull("The Mission2 ID is null", mission2.getId());
 		assertNotNull("The Mission3 ID is null", mission3.getId());
 
 		// find our jobs using JPQL (sanity check; still no DAO)
-		List<Mission> expectedResults = em.createQuery("FROM Mission").getResultList();
+		List<Mission> expectedResults = em.createQuery("FROM SharedMission").getResultList();
 		assertEquals("Wrong number of results found.", 3, expectedResults.size());
-		assertEquals("The Mission was not persisted properly: entity manager did not get proper Mission.", mission,
+		assertEquals("The SharedMission was not persisted properly: entity manager did not get proper SharedMission.", mission,
 				expectedResults.get(0));
-		assertEquals("The Mission2 was not persisted properly: entity manager did not get proper Mission.", mission2,
+		assertEquals("The Mission2 was not persisted properly: entity manager did not get proper SharedMission.", mission2,
 				expectedResults.get(1));
-		assertEquals("The Mission3 was not persisted properly: entity manager did not get proper Mission.", mission3,
+		assertEquals("The Mission3 was not persisted properly: entity manager did not get proper SharedMission.", mission3,
 				expectedResults.get(2));
 
 		// findAll using our DAO
@@ -258,9 +258,9 @@ public class MissionDaoTest {
 	private Mission initMission() {
 		Mission mission = new Mission();
 
-		mission.setName("Mission " + UUID.randomUUID());
+		mission.setName("SharedMission " + UUID.randomUUID());
 		mission.setBusinessKey("testBussinessKey" + UUID.randomUUID());
-		mission.setDescription("New Mission" + UUID.randomUUID());
+		mission.setDescription("New SharedMission" + UUID.randomUUID());
 
 		return mission;
 	}

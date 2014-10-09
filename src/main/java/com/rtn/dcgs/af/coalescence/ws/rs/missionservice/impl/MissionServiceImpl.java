@@ -33,4 +33,16 @@ public class MissionServiceImpl implements MissionService {
 		service.createMission(missionName);
 	}
 
+	@Override
+	public void createMissionByName(Mission mission) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void createMission(Mission mission) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

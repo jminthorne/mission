@@ -83,14 +83,14 @@ public class SearchMissionIntegrationTest {
 
 		// clear the table between tests (findAll can't test without this)
 		// cannot drop a table with a child table using only JPQL (i.e. DELETE)
-		List<Mission> results = em.createQuery("FROM Mission").getResultList();
+		List<Mission> results = em.createQuery("FROM SharedMission").getResultList();
 		for (Mission mission : results) {
 			System.out.println("\n\n\ttotal mission " + results.size());
 			System.out.println("\n\n\tremoving " + mission.getBusinessKey());
 			em.remove(mission);
 		}
 
-		List<Mission> mResults = em.createQuery("FROM Mission").getResultList();
+		List<Mission> mResults = em.createQuery("FROM SharedMission").getResultList();
 		for (Mission mission : mResults) {
 			em.remove(mission);
 		}
@@ -102,7 +102,7 @@ public class SearchMissionIntegrationTest {
 	public void integration_testFindMissionByName(@ArquillianResteasyResource("coalescence/rs") MissionService service) {
 		System.out.println("\n\n\tsearch-mission-integration-test: integration_testFindMissionByName");
 		// given
-		assertNotNull("The Mission Dao was not injected", missionDao);
+		assertNotNull("The SharedMission Dao was not injected", missionDao);
 		
 		String missionName = "test_mission";
 
@@ -127,9 +127,9 @@ public class SearchMissionIntegrationTest {
 	private Mission initMission() {
 		Mission mission = new Mission();
 
-		//mission.setName("Mission " + UUID.randomUUID());
+		//mission.setName("SharedMission " + UUID.randomUUID());
 		mission.setBusinessKey("testBussinessKey" + UUID.randomUUID());
-		mission.setDescription("New Mission" + UUID.randomUUID());
+		mission.setDescription("New SharedMission" + UUID.randomUUID());
 
 		return mission;
 	}

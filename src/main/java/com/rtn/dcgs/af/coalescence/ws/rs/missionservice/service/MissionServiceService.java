@@ -16,10 +16,10 @@ public class MissionServiceService {
 		bp.create(missionName);
 
 	}
-	
-	public Mission findMissionByName(String missionName){
-		System.out.println("\n\n\tMissionServiceService: findMissionByName "+ missionName);
-		
+
+	public Mission findMissionByName(String missionName) {
+		System.out.println("\n\n\tMissionServiceService: findMissionByName " + missionName);
+
 		return bp.findBy("name", missionName).get(0);
 	}
 
